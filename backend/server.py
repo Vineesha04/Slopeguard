@@ -12,6 +12,7 @@ import requests
 import time
 from backend.ml_engine import ml_engine
 from backend import storage
+START_TIME = time.time()
 
 app = FastAPI(
     title="NER-LEWS Sentinel Command API",
@@ -76,7 +77,7 @@ def health():
         "version": "2.1.0",
         "live_sources": ["Open-Meteo Public Weather API", "scikit-learn GBC ML Engine"],
         "simulated_sources": ["Borehole Geophones", "Vibrating Wire Piezometers", "InSAR Co-Reg"],
-        "uptime_sec": time.time()
+        "uptime_sec": round(time.time() - START_TIME, 2)
     }
 
 @app.get("/api/weather/live")
