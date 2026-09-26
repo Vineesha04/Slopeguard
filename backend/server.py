@@ -13,7 +13,13 @@ import time
 from backend.ml_engine import ml_engine
 from backend import storage
 START_TIME = time.time()
-
+class HealthResponse(BaseModel):
+    status: str
+    service: str
+    version: str
+    live_sources: list[str]
+    simulated_sources: list[str]
+    uptime_sec: float
 app = FastAPI(
     title="NER-LEWS Sentinel Command API",
     description="Real Ingestion & ML Risk Serving Backend for North East India Landslide Early Warning",
@@ -69,7 +75,7 @@ class EvacuationCommandRequest(BaseModel):
     authorizing_officer: str
     pin_code: str
 
-@app.get("/api/health")
+@app.get("/api/health", response_model=HealthResponse)
 def health():
     return {
         "status": "OPERATIONAL",
